@@ -9,22 +9,20 @@ namespace Logger
     public class Actions
     {
         private readonly LogicofLogger _logger = LogicofLogger.Instance;
-
-        public Result StartMethod()
+        public bool StartMethod()
         {
-            _logger.ShowInfo($" Start Method : {nameof(StartMethod)}");
-            return new Result() { Status = true };
+            _logger.ShowInfo($"{TypeofLogger.Info}: Start Method : {nameof(StartMethod)}");
+            return true;
         }
 
-        public Result SkippedLogic()
+        public BusinessException SkippedLogic()
         {
-            _logger.ShowWarning($"{TypeofLogger.Warning}: Skipped logic of Method {nameof(SkippedLogic)}");
-            return new Result() { Status = true };
+            return new BusinessException() { Status = true, Massage = " Skipped logic in method " };
         }
 
-        public Result BrokeLogic()
+        public void BrokeLogic()
         {
-            return new Result() { Status = false, Massage = "I broke a logic" };
+            throw new Exception("I broke a logic");
         }
     }
 }
