@@ -4,19 +4,19 @@ using System.Text;
 
 namespace Logger
 {
-    public class LogicofLogger
+    public class Logger
     {
-        private static readonly LogicofLogger _instance = new LogicofLogger();
+        private static readonly Logger _instance = new Logger();
         private readonly StringBuilder _log = new StringBuilder();
-        static LogicofLogger()
+        static Logger()
         {
         }
 
-        private LogicofLogger()
+        private Logger()
         {
         }
 
-        public static LogicofLogger Instance => _instance;
+        public static Logger Instance => _instance;
         public string Log => _log.ToString();
 
         public void ShowEror(string massage)

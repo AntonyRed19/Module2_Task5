@@ -8,7 +8,7 @@ namespace Logger
 {
     public class Actions
     {
-        private readonly LogicofLogger _logger = LogicofLogger.Instance;
+        private readonly Logger _logger = Logger.Instance;
         public bool StartMethod()
         {
             _logger.ShowInfo($"{TypeofLogger.Info}: Start Method : {nameof(StartMethod)}");
@@ -17,7 +17,7 @@ namespace Logger
 
         public BusinessException SkippedLogic()
         {
-            return new BusinessException() { Status = true, Massage = " Skipped logic in method " };
+            return new BusinessException() { BusinessMessage = " Skipped logic in method " };
         }
 
         public void BrokeLogic()
