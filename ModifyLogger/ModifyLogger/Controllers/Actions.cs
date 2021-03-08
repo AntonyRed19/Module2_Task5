@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ModifyLogger.Models;
+using ModifyLogger.Services;
+using ModifyLogger.Services.Abstractions;
 
 namespace Logger
 {
     public class Actions
     {
-        private readonly Logger _logger = Logger.Instance;
+        private ILoggerService _loggerService;
+        public Actions()
+        {
+            _loggerService = LocatorService.LoggerService;
+        }
+
         public bool StartMethod()
         {
-            _logger.ShowInfo($"{TypeofLogger.Info}: Start Method : {nameof(StartMethod)}");
+            _loggerService.ShowInfo($"{TypeofLogger.Info}: Start Method : {nameof(StartMethod)}");
             return true;
         }
 
-        public BusinessException SkippedLogic()
+        public bool SkippedLogic()
         {
-            return new BusinessException() { BusinessMessage = " Skipped logic in method " };
+            throw new BusinessException("Skipped logic in method ");
         }
 
-        public void BrokeLogic()
+        public bool BrokeLogic()
         {
             throw new Exception("I broke a logic");
         }

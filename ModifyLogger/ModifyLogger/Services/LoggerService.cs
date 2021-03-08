@@ -1,26 +1,19 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using ModifyLogger.Services.Abstractions;
 
 namespace Logger
 {
-    public class Logger
+    public class LoggerService : ILoggerService
     {
-        private static readonly Logger _instance = new Logger();
-        private readonly StringBuilder _log = new StringBuilder();
-        static Logger()
+        public LoggerService()
         {
         }
 
-        private Logger()
+        public void ShowError(string massage, Exception ex)
         {
-        }
-
-        public static Logger Instance => _instance;
-        public string Log => _log.ToString();
-
-        public void ShowEror(string massage)
-        {
+            var massagelog = $"{massage}: {ex}";
             ShowAllLog(TypeofLogger.Eror, massage);
         }
 
@@ -37,8 +30,6 @@ namespace Logger
         public void ShowAllLog(TypeofLogger logger, string massage)
         {
             var log = $"{DateTime.Now}: {logger}: {massage}";
-            Console.WriteLine(log);
-            _log.AppendLine(log);
         }
     }
 }
