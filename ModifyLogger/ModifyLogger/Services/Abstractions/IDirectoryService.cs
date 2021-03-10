@@ -8,5 +8,10 @@ namespace ModifyLogger.Services.Abstractions
 {
     public interface IDirectoryService
     {
+        bool Exists(string path);
+
+        void CreateDirectory(string path);
+
+        void RemoveOldestFiles(string path, int countOfBackup);
     }
 }

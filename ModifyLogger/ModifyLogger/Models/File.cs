@@ -8,7 +8,7 @@ namespace ModifyLogger.Models
 {
     public class File
     {
-        public string Name { get; set; }
+        public string Path { get; set; }
         public DateTime CreateTime { get; set; }
     }
 }

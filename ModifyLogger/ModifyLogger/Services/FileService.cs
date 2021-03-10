@@ -6,74 +6,32 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
+using ModifyLogger.Services.Abstractions;
 using Newtonsoft.Json;
 
 namespace Logger
 {
-    public class FileService : IDisposable
+    public class FileService : IFileService
     {
-        private static readonly FileService _instance = new FileService();
-        private bool _disposed = false;
-        private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
-        static FileService()
+        public IDisposable CreateStreamForWrite(string path)
         {
+            return new StreamWriter(path, true, Encoding.Default);
         }
 
-        private FileService()
+        public void WriteToStream(IDisposable stream, string text)
         {
+            var streamWrite = (StreamWriter)stream;
+
+            streamWrite.WriteLine(text);
         }
 
-        public static FileService Instance => _instance;
-
-        public void Dispose()
+        public void Delete(string path)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            File.Delete(path);
         }
 
-        public void WriteFile(string path, string text)
-        {
-            File.WriteAllText(path, text);
-        }
+        public string ReadAllText(string path) => File.ReadAllText(path);
 
-        public void CreateDirectory()
-        {
-            string path = @"C:\\Users\\Antony\\source\\repos\\AntonyRed19\\Module2_Task5\\Logger\\Logger\\bin\\Debug\\net5.0\\Files";
-
-            try
-            {
-                if (Directory.Exists(path))
-                {
-                    Console.WriteLine("That path exists already.");
-                    return;
-                }
-
-                DirectoryInfo di = Directory.CreateDirectory(path);
-                Console.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(path));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("The process failed: {0}", e.ToString());
-            }
-            finally
-            {
-                Dispose();
-            }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                _safeHandle?.Dispose();
-            }
-
-            _disposed = true;
-        }
+        public DateTime GetCreationTime(string path) => File.GetCreationTime(path);
     }
 }
